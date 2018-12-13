@@ -1,5 +1,8 @@
 require('./config/config')
+
 const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -7,19 +10,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
-app.get('/usuario', (req, res) => {
-    res.json('Get usuario')
-});
+app.use(require('./routes/usuario'));
 
-app.post('/usuario', (req, res) => {
-    let body = req.body;
+mongoose.connect(process.env.URLDB, (err, res) => {
+    if (err) throw err;
 
-    res.json({
-        persona: body
-    });
-
-    res.json('Post usuario')
-});
+    console.log('Base de datos ONLINE');
+})
 
 app.listen(process.env.PORT, () => {
     console.log(`Escuchando en el puerto`, process.env.PORT);
