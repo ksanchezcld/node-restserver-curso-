@@ -6,11 +6,14 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
+//Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
+//Parse application/Json
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario'));
+//Configuracion Global de rutas
+app.use(require('./routes/index'));
 
 mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) throw err;
